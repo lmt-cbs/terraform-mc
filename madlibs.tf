@@ -1,4 +1,4 @@
-# ejercicio 3 : usamos funcion para pasar a mayusculas con un for 
+# Ejercicio 3 : usamos funcion para pasar a mayusculas con un for 
 
 terraform {
   required_version = "~> 0.12"
@@ -24,23 +24,32 @@ variable "words" {
 locals {
   uppercase_words = {for k,v in var.words : k => [for s in v : upper(s)] if k!= "numbers"}
 }
- 
+
+variable "num_files" {
+  default = 100
+  type = number
+}
 resource "random_shuffle" "random_nouns" {
+  count = var.num_files
   input = local.uppercase_words["nouns"]
 }
  
 resource "random_shuffle" "random_adjectives" {
+  count = var.num_files
   input = local.uppercase_words["adjectives"]
 }
  
 resource "random_shuffle" "random_verbs" {
+  count = var.num_files
     input = local.uppercase_words["verbs"]
 }
  
 resource "random_shuffle" "random_adverbs" {
+  count = var.num_files
   input = local.uppercase_words["adverbs"]
 }
  
 resource "random_shuffle" "random_numbers" {
+  count = var.num_files
   input = var.words["numbers"]
 }
